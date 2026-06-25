@@ -16,10 +16,10 @@
 // ============================================================
 
 export const giscusConfig = {
-  repo: '',            // 예: 'your-name/my-blog'
-  repoId: '',          // 예: 'R_kgD...'
-  category: '',        // 예: 'Announcements'
-  categoryId: '',      // 예: 'DIC_kwD...'
+  repo: 'EdgarWoo1/my-blog',
+  repoId: 'R_kgDOTFDpig',
+  category: 'Announcements',
+  categoryId: 'DIC_kwDOTFDpis4C_39W',
   mapping: 'pathname', // 글 주소 기준으로 댓글 스레드 구분 (그대로 두세요)
   lang: 'ko',
 }
