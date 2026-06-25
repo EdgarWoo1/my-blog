@@ -32,3 +32,23 @@ export function isGiscusConfigured() {
       giscusConfig.categoryId,
   )
 }
+
+// ============================================================
+//  댓글(Supabase) 설정 — GitHub 로그인 없이 누구나 댓글
+// ============================================================
+// Supabase 프로젝트의 두 값을 채우면 댓글창이 켜집니다.
+//   Supabase 대시보드 → Project Settings → API 에서:
+//     - Project URL  → supabaseUrl
+//     - anon public 키 → supabaseAnonKey
+// ※ anon 키는 브라우저에 공개되도록 설계된 키라 노출되어도
+//   안전합니다(데이터는 RLS 정책으로 보호됨).
+// ============================================================
+
+export const supabaseConfig = {
+  supabaseUrl: 'https://achqovvywvsgmcqewkng.supabase.co',
+  supabaseAnonKey: 'sb_publishable_BNY_2MxWDfKpMgVj4oJkVQ_OTEg5Uci',
+}
+
+export function isSupabaseConfigured() {
+  return Boolean(supabaseConfig.supabaseUrl && supabaseConfig.supabaseAnonKey)
+}

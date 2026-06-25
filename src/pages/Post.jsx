@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { getPost } from '../data/posts'
-import Comments from '../components/Comments'
+import CommentBox from '../components/CommentBox'
 
 function formatDate(iso) {
   const d = new Date(iso)
@@ -49,7 +49,7 @@ export default function Post() {
         ))}
       </div>
 
-      <Comments />
+      <CommentBox slug={post.slug} />
     </article>
   )
 }
