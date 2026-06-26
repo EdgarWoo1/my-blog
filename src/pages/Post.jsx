@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { deletePost, getPost } from '../data/postsApi'
 import CommentBox from '../components/CommentBox'
+import { useAuth } from '../auth'
 
 function formatDate(iso) {
   const d = new Date(iso)
@@ -11,6 +12,7 @@ function formatDate(iso) {
 export default function Post() {
   const { slug } = useParams()
   const navigate = useNavigate()
+  const { isAuthed } = useAuth()
 
   const [post, setPost] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -87,19 +89,21 @@ export default function Post() {
         ))}
       </div>
 
-      <div className="post-actions">
-        <Link to={`/write/${post.slug}/edit`} className="post-action">
-          ✏️ 수정
-        </Link>
-        <button
-          type="button"
-          className="post-action danger"
-          onClick={handleDelete}
-          disabled={deleting}
-        >
-          🗑 {deleting ? '삭제 중…' : '삭제'}
-        </button>
-      </div>
+      {isAuthed && (
+        <div className="post-actions">
+          <Link to={`/write/${post.slug}/edit`} className="post-action">
+            ✏️ 수정
+          </Link>
+          <button
+            type="button"
+            className="post-action danger"
+            onClick={handleDelete}
+            disabled={deleting}
+          >
+            🗑 {deleting ? '삭제 중…' : '삭제'}
+          </button>
+        </div>
+      )}
 
       <CommentBox slug={post.slug} />
     </article>

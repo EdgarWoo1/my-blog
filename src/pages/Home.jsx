@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { listPosts } from '../data/postsApi'
+import { useAuth } from '../auth'
 
 function formatDate(iso) {
   const d = new Date(iso)
@@ -8,6 +9,7 @@ function formatDate(iso) {
 }
 
 export default function Home() {
+  const { isAuthed } = useAuth()
   const [query, setQuery] = useState('')
   const [posts, setPosts] = useState([])
   const [loading, setLoading] = useState(true)
@@ -45,9 +47,11 @@ export default function Home() {
       <section className="intro">
         <h1>오늘의 기록</h1>
         <p>매일의 작은 순간과 흩어진 생각들을 천천히 적어 둡니다.</p>
-        <Link to="/write" className="write-button">
-          ✏️ 새 글 쓰기
-        </Link>
+        {isAuthed && (
+          <Link to="/write" className="write-button">
+            ✏️ 새 글 쓰기
+          </Link>
+        )}
       </section>
 
       <div className="search">

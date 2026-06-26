@@ -12,8 +12,9 @@
 --    · 대문자가 섞인 이름은 PostgreSQL에서 "큰따옴표"로 감싸야
 --      대소문자가 그대로 유지됩니다.
 --
---  ※ 로그인 없이 누구나 글을 쓰고/고치고/지울 수 있도록 열어 둔 정책입니다.
---    (나중에 작성자 로그인 기능을 붙이면 정책을 더 좁게 바꾸는 것을 권장)
+--  ※ 읽기는 누구나, 쓰기/수정/삭제는 "로그인한 사용자(관리자)"만 가능합니다.
+--    관리자 계정은 Supabase 대시보드 → Authentication → Users 에서 직접 추가하고,
+--    새 가입(Sign up)은 막아 두면 사실상 관리자 전용이 됩니다.
 -- ============================================================
 
 create table if not exists public."_TdaPost" (
@@ -39,10 +40,11 @@ drop policy if exists "_TdaPost insert" on public."_TdaPost";
 drop policy if exists "_TdaPost update" on public."_TdaPost";
 drop policy if exists "_TdaPost delete" on public."_TdaPost";
 
+-- 읽기: 누구나 / 쓰기·수정·삭제: 로그인한 사용자(authenticated)만
 create policy "_TdaPost read"   on public."_TdaPost" for select using (true);
-create policy "_TdaPost insert" on public."_TdaPost" for insert with check (true);
-create policy "_TdaPost update" on public."_TdaPost" for update using (true) with check (true);
-create policy "_TdaPost delete" on public."_TdaPost" for delete using (true);
+create policy "_TdaPost insert" on public."_TdaPost" for insert to authenticated with check (true);
+create policy "_TdaPost update" on public."_TdaPost" for update to authenticated using (true) with check (true);
+create policy "_TdaPost delete" on public."_TdaPost" for delete to authenticated using (true);
 
 -- ============================================================
 --  기존에 있던 글 3개를 옮겨 담기 (시드)

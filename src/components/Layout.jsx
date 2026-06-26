@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import { supabase } from '../supabase'
+import { useAuth } from '../auth'
 
 function useTheme() {
   const [theme, setTheme] = useState(
@@ -17,6 +19,11 @@ function useTheme() {
 
 export default function Layout({ children }) {
   const { theme, toggle } = useTheme()
+  const { isAuthed } = useAuth()
+
+  async function handleLogout() {
+    if (supabase) await supabase.auth.signOut()
+  }
 
   return (
     <div className="site">
@@ -29,8 +36,15 @@ export default function Layout({ children }) {
             <NavLink to="/" end>
               글
             </NavLink>
-            <NavLink to="/write">글쓰기</NavLink>
+            {isAuthed && <NavLink to="/write">글쓰기</NavLink>}
             <NavLink to="/about">소개</NavLink>
+            {isAuthed ? (
+              <button className="nav-link-button" onClick={handleLogout}>
+                로그아웃
+              </button>
+            ) : (
+              <NavLink to="/login">로그인</NavLink>
+            )}
             <button
               className="theme-toggle"
               onClick={toggle}
