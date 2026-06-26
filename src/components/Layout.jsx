@@ -29,6 +29,7 @@ export default function Layout({ children }) {
             <NavLink to="/" end>
               글
             </NavLink>
+            <NavLink to="/write">글쓰기</NavLink>
             <NavLink to="/about">소개</NavLink>
             <button
               className="theme-toggle"

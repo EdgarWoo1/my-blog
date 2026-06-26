@@ -230,6 +230,24 @@ main.container {
   border-radius: 999px;
 }
 
+/* ---------- Write button (home) ---------- */
+.write-button {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 10px 22px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: transform 0.1s, opacity 0.2s;
+}
+
+.write-button:hover {
+  transform: translateY(-1px);
+  opacity: 0.92;
+}
+
 /* ---------- Post ---------- */
 .back-link {
   display: inline-block;
@@ -262,6 +280,146 @@ main.container {
 
 .about .post-body {
   color: var(--text);
+}
+
+/* ---------- Post actions (수정/삭제) ---------- */
+.post-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 36px;
+}
+
+.post-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--text-soft);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.post-action:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.post-action.danger:hover {
+  border-color: #c0392b;
+  color: #c0392b;
+}
+
+.post-action:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- Editor (글쓰기/수정) ---------- */
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.editor-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.editor-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.editor-hint {
+  font-weight: 400;
+  color: var(--text-soft);
+  font-size: 0.82rem;
+}
+
+.editor-input,
+.editor-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.editor-textarea {
+  resize: vertical;
+  line-height: 1.8;
+}
+
+.editor-input:focus,
+.editor-textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.editor-error {
+  color: #c0392b;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.editor-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.editor-submit {
+  padding: 10px 24px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.1s, opacity 0.2s;
+}
+
+.editor-submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.editor-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.editor-cancel {
+  padding: 10px 24px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.editor-cancel:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 /* ---------- Comments ---------- */

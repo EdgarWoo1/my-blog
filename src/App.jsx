@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import Layout from './components/Layout'
 import Home from './pages/Home'
 import Post from './pages/Post'
+import Write from './pages/Write'
 import About from './pages/About'
 
 function App() {
@@ -9,6 +10,8 @@ function App() {
     <Layout>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/write" element={<Write />} />
+        <Route path="/write/:slug/edit" element={<Write />} />
         <Route path="/posts/:slug" element={<Post />} />
         <Route path="/about" element={<About />} />
         <Route

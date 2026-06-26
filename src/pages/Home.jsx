@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { posts } from '../data/posts'
+import { listPosts } from '../data/postsApi'
 
 function formatDate(iso) {
   const d = new Date(iso)
@@ -9,6 +9,20 @@ function formatDate(iso) {
 
 export default function Home() {
   const [query, setQuery] = useState('')
+  const [posts, setPosts] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    let active = true
+    listPosts().then((data) => {
+      if (!active) return
+      setPosts(data)
+      setLoading(false)
+    })
+    return () => {
+      active = false
+    }
+  }, [])
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -24,13 +38,16 @@ export default function Home() {
         .toLowerCase()
       return haystack.includes(q)
     })
-  }, [query])
+  }, [query, posts])
 
   return (
     <div className="home">
       <section className="intro">
         <h1>오늘의 기록</h1>
         <p>매일의 작은 순간과 흩어진 생각들을 천천히 적어 둡니다.</p>
+        <Link to="/write" className="write-button">
+          ✏️ 새 글 쓰기
+        </Link>
       </section>
 
       <div className="search">
@@ -44,9 +61,13 @@ export default function Home() {
         />
       </div>
 
-      {filtered.length === 0 ? (
+      {loading ? (
+        <p className="search-empty">글을 불러오는 중…</p>
+      ) : filtered.length === 0 ? (
         <p className="search-empty">
-          '{query}'에 해당하는 글을 찾지 못했어요.
+          {query
+            ? `'${query}'에 해당하는 글을 찾지 못했어요.`
+            : '아직 글이 없어요. 첫 글을 써 보세요!'}
         </p>
       ) : (
         <ul className="post-list">

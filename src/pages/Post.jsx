@@ -1,5 +1,6 @@
-import { Link, useParams } from 'react-router-dom'
-import { getPost } from '../data/posts'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { deletePost, getPost } from '../data/postsApi'
 import CommentBox from '../components/CommentBox'
 
 function formatDate(iso) {
@@ -9,7 +10,44 @@ function formatDate(iso) {
 
 export default function Post() {
   const { slug } = useParams()
-  const post = getPost(slug)
+  const navigate = useNavigate()
+
+  const [post, setPost] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [deleting, setDeleting] = useState(false)
+
+  useEffect(() => {
+    let active = true
+    setLoading(true)
+    getPost(slug).then((p) => {
+      if (!active) return
+      setPost(p)
+      setLoading(false)
+    })
+    return () => {
+      active = false
+    }
+  }, [slug])
+
+  async function handleDelete() {
+    if (!window.confirm('이 글을 정말 삭제할까요? 되돌릴 수 없어요.')) return
+    setDeleting(true)
+    try {
+      await deletePost(slug)
+      navigate('/')
+    } catch (err) {
+      window.alert('삭제에 실패했어요: ' + err.message)
+      setDeleting(false)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="post">
+        <p className="comment-loading">글을 불러오는 중…</p>
+      </div>
+    )
+  }
 
   if (!post) {
     return (
@@ -47,6 +85,20 @@ export default function Post() {
         {paragraphs.map((para, i) => (
           <p key={i}>{para}</p>
         ))}
+      </div>
+
+      <div className="post-actions">
+        <Link to={`/write/${post.slug}/edit`} className="post-action">
+          ✏️ 수정
+        </Link>
+        <button
+          type="button"
+          className="post-action danger"
+          onClick={handleDelete}
+          disabled={deleting}
+        >
+          🗑 {deleting ? '삭제 중…' : '삭제'}
+        </button>
       </div>
 
       <CommentBox slug={post.slug} />
